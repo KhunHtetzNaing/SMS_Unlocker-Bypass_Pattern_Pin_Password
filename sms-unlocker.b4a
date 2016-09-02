@@ -1,0 +1,96 @@
+﻿Version=6
+NumberOfModules=3
+Module1=SmsUnlocker
+Module2=About
+Module3=s1
+Build1=Default,com.htetznaing.smsunlocker
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'AddReplacement(android.intent.action.MAIN, unused_action)~\n~AddPermission(android.permission.RECEIVE_SMS)~\n~~\n~AddReceiverText(s1, ~\n~<intent-filter>~\n~    <action android:name="android.provider.Telephony.SMS_RECEIVED" />~\n~</intent-filter>)~\n~'AdMob~\n~AddApplicationText(~\n~<meta-data android:name="com.google.android.gms.version"~\n~ android:value="@integer/google_play_services_version"/>~\n~<activity android:name="com.google.android.gms.ads.AdActivity"~\n~  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>~\n~)~\n~'End of AdMob~\n~
+IconFile=
+NumberOfFiles=2
+File1=1.bal
+File2=logo.png
+NumberOfLibraries=6
+Library1=core
+Library2=reflection
+Library3=mlfiles
+Library4=admob
+Library5=stringutils
+Library6=phone
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: SMS Unlocker
+	#VersionCode: 1
+	#VersionName: 1.0
+	'SupportedOrientations possible values: unspecified, landscape Or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+	#AdditionalRes: C:\Android\SDK\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+
+End Sub
+
+Sub Globals
+  Dim ml As MLfiles
+  Dim start,stop As Button
+  Dim lblfooter As Label
+  Dim AdView1 As AdView
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("1")
+	start.Text = "Start"
+	stop.Text = "Stop"
+	
+	lblfooter.Initialize("lblfooter")
+lblfooter.Text = "Developed By Khun Htetz Naing"
+lblfooter.TextColor = Colors.Green
+lblfooter.Gravity = Gravity.CENTER
+Activity.AddView(lblfooter,10dip, 100%y - 35dip , 100%x - 20dip ,40dip)
+
+AdView1.Initialize("ad","ca-app-pub-4173348573252986/5103755751")
+Activity.AddView(AdView1,0%x,(stop.Height+stop.Top)+5%y,100%x,30%y)
+AdView1.LoadAd
+
+Activity.AddMenuItem("About","About")
+End Sub
+
+Sub About_Click
+	StartActivity(About)
+End Sub
+Sub start_Click
+	StartService(SmsUnlocker)
+ ml.GetRoot
+  If ml.HaveRoot Then
+     Else
+	  Msgbox("No have Root Access!" ,"Error")
+	  End If
+End Sub
+Sub stop_Click
+	StopService(SmsUnlocker)
+		Msgbox("SMS-Unlocker Stopped","Attention")
+End Sub
+Sub Ad_FailedToReceiveAd (ErrorCode As String)
+    Log("failed: " & ErrorCode)
+End Sub
+Sub Ad_ReceiveAd
+    Log("received")
+End Sub
+Sub Ad_AdScreenDismissed
+   Log("screen dismissed")
+End Sub
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+
