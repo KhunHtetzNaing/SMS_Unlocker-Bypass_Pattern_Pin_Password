@@ -4,27 +4,29 @@ Module1=SmsUnlocker
 Module2=About
 Module3=s1
 Build1=Default,com.htetznaing.smsunlocker
-ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'AddReplacement(android.intent.action.MAIN, unused_action)~\n~AddPermission(android.permission.RECEIVE_SMS)~\n~~\n~AddReceiverText(s1, ~\n~<intent-filter>~\n~    <action android:name="android.provider.Telephony.SMS_RECEIVED" />~\n~</intent-filter>)~\n~'AdMob~\n~AddApplicationText(~\n~<meta-data android:name="com.google.android.gms.version"~\n~ android:value="@integer/google_play_services_version"/>~\n~<activity android:name="com.google.android.gms.ads.AdActivity"~\n~  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>~\n~)~\n~'End of AdMob~\n~
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:theme, "@android:style/Theme.Holo")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'AddReplacement(android.intent.action.MAIN, unused_action)~\n~AddPermission(android.permission.RECEIVE_SMS)~\n~~\n~AddReceiverText(s1, ~\n~<intent-filter>~\n~    <action android:name="android.provider.Telephony.SMS_RECEIVED" />~\n~</intent-filter>)~\n~'AdMob~\n~AddApplicationText(~\n~<meta-data android:name="com.google.android.gms.version"~\n~ android:value="@integer/google_play_services_version"/>~\n~<activity android:name="com.google.android.gms.ads.AdActivity"~\n~  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>~\n~)~\n~'End of AdMob~\n~
 IconFile=
-NumberOfFiles=2
+NumberOfFiles=3
 File1=1.bal
-File2=logo.png
-NumberOfLibraries=6
+File2=about.png
+File3=logo.png
+NumberOfLibraries=7
 Library1=core
 Library2=reflection
-Library3=mlfiles
-Library4=admob
-Library5=stringutils
-Library6=phone
+Library3=admob
+Library4=stringutils
+Library5=phone
+Library6=mlfiles
+Library7=xmllayoutbuilder
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: SMS Unlocker
-	#VersionCode: 1
-	#VersionName: 1.0
+	#VersionCode: 3
+	#VersionName: 1.1
 	'SupportedOrientations possible values: unspecified, landscape Or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
-	#AdditionalRes: C:\Android\SDK\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
+	#AdditionalRes: F:\Android\SDK\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
 #End Region
 
 #Region  Activity Attributes 
@@ -33,10 +35,11 @@ Library6=phone
 #End Region
 
 Sub Process_Globals
-
+Dim Theme_Value As Int
 End Sub
 
 Sub Globals
+	Dim res As XmlLayoutBuilder
   Dim ml As MLfiles
   Dim start,stop As Button
   Dim lblfooter As Label
@@ -58,7 +61,16 @@ AdView1.Initialize("ad","ca-app-pub-4173348573252986/5103755751")
 Activity.AddView(AdView1,0%x,(stop.Height+stop.Top)+5%y,100%x,30%y)
 AdView1.LoadAd
 
-Activity.AddMenuItem("About","About")
+Activity.AddMenuItem3("About","About",LoadBitmap(File.DirAssets,"about.png"),True)
+
+Activity.Title = "Dhamma Present"
+	Activity.AddMenuItem("Holo","btnHolo")
+	Activity.AddMenuItem("Holo Light","btnHoloLight")
+	Activity.AddMenuItem("Holo Light Dark","btnHoloLightDark")
+	Activity.AddMenuItem("Old Android","btnOld")
+	Activity.AddMenuItem("Material Light Dark","btnMaterialLightDark")
+	Activity.AddMenuItem("Material Light","btnMaterialLight")
+	Activity.AddMenuItem("Material","btnMaterial")
 End Sub
 
 Sub About_Click
@@ -88,6 +100,53 @@ End Sub
 Sub Activity_Resume
 
 End Sub
+
+Sub btnHolo_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Holo"))
+End Sub
+
+Sub btnHoloLight_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Holo.Light"))
+End Sub
+
+Sub btnHoloLightDark_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Holo.Light.DarkActionBar"))
+End Sub
+
+Sub btnOld_Click
+	SetTheme(16973829)
+End Sub
+
+Sub btnMaterialLightDark_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Material.Light.DarkActionBar"))
+End Sub
+
+Sub btnMaterialLight_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Material.Light"))
+End Sub
+
+Sub btnMaterial_Click
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Material"))
+End Sub
+
+Private Sub SetTheme (Theme As Int)
+	If Theme = 0 Then
+		ToastMessageShow("Theme not available.", False)
+		Return
+	End If
+	If Theme = Theme_Value Then Return
+	Theme_Value = Theme
+	Activity.Finish
+	StartActivity(Me)				
+End Sub
+
+
+#if java
+public void _onCreate() {
+	if (_theme_value != 0)
+		setTheme(_theme_value);
+}
+#end if
 
 Sub Activity_Pause (UserClosed As Boolean)
 
