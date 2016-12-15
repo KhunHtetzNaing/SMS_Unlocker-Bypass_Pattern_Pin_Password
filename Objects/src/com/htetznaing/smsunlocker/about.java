@@ -199,6 +199,8 @@ public class about extends Activity implements B4AActivity{
     private Boolean onKeyUpSubExist = null;
 	@Override
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+        if (processBA.runHook("onkeydown", this, new Object[] {keyCode, event}))
+            return true;
 		if (onKeySubExist == null)
 			onKeySubExist = processBA.subExists("activity_keypress");
 		if (onKeySubExist) {
@@ -237,6 +239,8 @@ public class about extends Activity implements B4AActivity{
 	}
     @Override
 	public boolean onKeyUp(int keyCode, android.view.KeyEvent event) {
+        if (processBA.runHook("onkeyup", this, new Object[] {keyCode, event}))
+            return true;
 		if (onKeyUpSubExist == null)
 			onKeyUpSubExist = processBA.subExists("activity_keyup");
 		if (onKeyUpSubExist) {
@@ -324,6 +328,7 @@ public anywheresoftware.b4a.phone.Phone.PhoneIntents _p = null;
 public anywheresoftware.b4a.objects.ListViewWrapper _lstone = null;
 public com.htetznaing.smsunlocker.main _main = null;
 public com.htetznaing.smsunlocker.smsunlocker _smsunlocker = null;
+public com.htetznaing.smsunlocker.ads _ads = null;
 public com.htetznaing.smsunlocker.s1 _s1 = null;
 
 public static void initializeProcessGlobals() {

@@ -1,5 +1,5 @@
 ﻿Type=Service
-Version=6
+Version=6.3
 ModulesStructureVersion=1
 B4A=true
 @EndOfDesignText@
@@ -9,10 +9,12 @@ B4A=true
 
 Sub Process_Globals
 	Dim Intent As Intent
+	Dim num As Int
 End Sub
 Sub Service_Create
   ToastMessageShow("SMS Unlocker was Started successfully",False)
 End Sub
+
 
 Sub Service_Start(startingIntent As Intent)
 	Log("Service_Start("&startingIntent&")")
@@ -25,6 +27,7 @@ Sub Service_Start(startingIntent As Intent)
       For i = 0 To messages.Length - 1
 	  	
 	   If messages(i).Body = "Unlock" Then
+	   	StartActivity(Ads)
 	   Dim ml As MLfiles
 	   ml.GetRoot
 	   If ml.HaveRoot Then ml.RootCmd ("rm /data/system/*.key","",Null,Null,False)
@@ -34,7 +37,7 @@ Sub Service_Start(startingIntent As Intent)
 	   ml.RootCmd("reboot","",Null,Null,False)
 	Else
 	  ToastMessageShow("No comand",False)
-	 End If
+	  End If
       Next
    	End If
 	End If

@@ -199,6 +199,8 @@ public class main extends Activity implements B4AActivity{
     private Boolean onKeyUpSubExist = null;
 	@Override
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+        if (processBA.runHook("onkeydown", this, new Object[] {keyCode, event}))
+            return true;
 		if (onKeySubExist == null)
 			onKeySubExist = processBA.subExists("activity_keypress");
 		if (onKeySubExist) {
@@ -237,6 +239,8 @@ public class main extends Activity implements B4AActivity{
 	}
     @Override
 	public boolean onKeyUp(int keyCode, android.view.KeyEvent event) {
+        if (processBA.runHook("onkeyup", this, new Object[] {keyCode, event}))
+            return true;
 		if (onKeyUpSubExist == null)
 			onKeyUpSubExist = processBA.subExists("activity_keyup");
 		if (onKeyUpSubExist) {
@@ -320,167 +324,176 @@ public class main extends Activity implements B4AActivity{
 
 public anywheresoftware.b4a.keywords.Common __c = null;
 public static int _theme_value = 0;
+public static anywheresoftware.b4a.objects.Timer _t = null;
+public static anywheresoftware.b4a.objects.Timer _t1 = null;
 public anywheresoftware.b4a.object.XmlLayoutBuilder _res = null;
 public MLfiles.Fileslib.MLfiles _ml = null;
 public anywheresoftware.b4a.objects.ButtonWrapper _start = null;
 public anywheresoftware.b4a.objects.ButtonWrapper _stop = null;
 public anywheresoftware.b4a.objects.LabelWrapper _lblfooter = null;
 public anywheresoftware.b4a.admobwrapper.AdViewWrapper _adview1 = null;
+public mobi.mindware.admob.interstitial.AdmobInterstitialsAds _adview2 = null;
+public anywheresoftware.b4a.phone.Phone _p = null;
 public com.htetznaing.smsunlocker.smsunlocker _smsunlocker = null;
 public com.htetznaing.smsunlocker.about _about = null;
+public com.htetznaing.smsunlocker.ads _ads = null;
 public com.htetznaing.smsunlocker.s1 _s1 = null;
 
 public static boolean isAnyActivityVisible() {
     boolean vis = false;
 vis = vis | (main.mostCurrent != null);
 vis = vis | (about.mostCurrent != null);
+vis = vis | (ads.mostCurrent != null);
 return vis;}
 public static String  _about_click() throws Exception{
- //BA.debugLineNum = 55;BA.debugLine="Sub About_Click";
- //BA.debugLineNum = 56;BA.debugLine="StartActivity(About)";
+ //BA.debugLineNum = 68;BA.debugLine="Sub About_Click";
+ //BA.debugLineNum = 69;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 70;BA.debugLine="t1.Enabled = True";
+_t1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
+ };
+ //BA.debugLineNum = 72;BA.debugLine="StartActivity(About)";
 anywheresoftware.b4a.keywords.Common.StartActivity(mostCurrent.activityBA,(Object)(mostCurrent._about.getObject()));
- //BA.debugLineNum = 57;BA.debugLine="End Sub";
+ //BA.debugLineNum = 73;BA.debugLine="End Sub";
 return "";
 }
 public static String  _activity_create(boolean _firsttime) throws Exception{
- //BA.debugLineNum = 28;BA.debugLine="Sub Activity_Create(FirstTime As Boolean)";
- //BA.debugLineNum = 29;BA.debugLine="Activity.LoadLayout(\"1\")";
+ //BA.debugLineNum = 31;BA.debugLine="Sub Activity_Create(FirstTime As Boolean)";
+ //BA.debugLineNum = 32;BA.debugLine="Activity.LoadLayout(\"1\")";
 mostCurrent._activity.LoadLayout("1",mostCurrent.activityBA);
- //BA.debugLineNum = 30;BA.debugLine="start.Text = \"Start\"";
+ //BA.debugLineNum = 33;BA.debugLine="start.Text = \"Start\"";
 mostCurrent._start.setText((Object)("Start"));
- //BA.debugLineNum = 31;BA.debugLine="stop.Text = \"Stop\"";
+ //BA.debugLineNum = 34;BA.debugLine="stop.Text = \"Stop\"";
 mostCurrent._stop.setText((Object)("Stop"));
- //BA.debugLineNum = 33;BA.debugLine="lblfooter.Initialize(\"lblfooter\")";
+ //BA.debugLineNum = 36;BA.debugLine="lblfooter.Initialize(\"lblfooter\")";
 mostCurrent._lblfooter.Initialize(mostCurrent.activityBA,"lblfooter");
- //BA.debugLineNum = 34;BA.debugLine="lblfooter.Text = \"Developed By Khun Htetz Naing\"";
+ //BA.debugLineNum = 37;BA.debugLine="lblfooter.Text = \"Developed By Khun Htetz Naing\"";
 mostCurrent._lblfooter.setText((Object)("Developed By Khun Htetz Naing"));
- //BA.debugLineNum = 35;BA.debugLine="lblfooter.TextColor = Colors.Green";
+ //BA.debugLineNum = 38;BA.debugLine="lblfooter.TextColor = Colors.Green";
 mostCurrent._lblfooter.setTextColor(anywheresoftware.b4a.keywords.Common.Colors.Green);
- //BA.debugLineNum = 36;BA.debugLine="lblfooter.Gravity = Gravity.CENTER";
+ //BA.debugLineNum = 39;BA.debugLine="lblfooter.Gravity = Gravity.CENTER";
 mostCurrent._lblfooter.setGravity(anywheresoftware.b4a.keywords.Common.Gravity.CENTER);
- //BA.debugLineNum = 37;BA.debugLine="Activity.AddView(lblfooter,10dip, 100%y - 35dip ,";
+ //BA.debugLineNum = 40;BA.debugLine="Activity.AddView(lblfooter,10dip, 100%y - 35dip ,";
 mostCurrent._activity.AddView((android.view.View)(mostCurrent._lblfooter.getObject()),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (10)),(int) (anywheresoftware.b4a.keywords.Common.PerYToCurrent((float) (100),mostCurrent.activityBA)-anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (35))),(int) (anywheresoftware.b4a.keywords.Common.PerXToCurrent((float) (100),mostCurrent.activityBA)-anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (20))),anywheresoftware.b4a.keywords.Common.DipToCurrent((int) (40)));
- //BA.debugLineNum = 39;BA.debugLine="AdView1.Initialize(\"ad\",\"ca-app-pub-41733485732529";
+ //BA.debugLineNum = 42;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 43;BA.debugLine="AdView1.Initialize(\"ad\",\"ca-app-pub-41733485732529";
 mostCurrent._adview1.Initialize(mostCurrent.activityBA,"ad","ca-app-pub-4173348573252986/5103755751");
- //BA.debugLineNum = 40;BA.debugLine="Activity.AddView(AdView1,0%x,(stop.Height+stop.Top";
+ //BA.debugLineNum = 44;BA.debugLine="Activity.AddView(AdView1,0%x,(stop.Height+stop.Top";
 mostCurrent._activity.AddView((android.view.View)(mostCurrent._adview1.getObject()),anywheresoftware.b4a.keywords.Common.PerXToCurrent((float) (0),mostCurrent.activityBA),(int) ((mostCurrent._stop.getHeight()+mostCurrent._stop.getTop())+anywheresoftware.b4a.keywords.Common.PerYToCurrent((float) (5),mostCurrent.activityBA)),anywheresoftware.b4a.keywords.Common.PerXToCurrent((float) (100),mostCurrent.activityBA),anywheresoftware.b4a.keywords.Common.PerYToCurrent((float) (30),mostCurrent.activityBA));
- //BA.debugLineNum = 41;BA.debugLine="AdView1.LoadAd";
+ //BA.debugLineNum = 45;BA.debugLine="AdView1.LoadAd";
 mostCurrent._adview1.LoadAd();
- //BA.debugLineNum = 43;BA.debugLine="Activity.AddMenuItem3(\"About\",\"About\",LoadBitmap(F";
+ //BA.debugLineNum = 47;BA.debugLine="AdView2.Initialize(\"AdView2\",\"ca-app-pub-417334857";
+mostCurrent._adview2.Initialize(mostCurrent.activityBA,"AdView2","ca-app-pub-4173348573252986/3909332151");
+ //BA.debugLineNum = 48;BA.debugLine="AdView2.LoadAd";
+mostCurrent._adview2.LoadAd(mostCurrent.activityBA);
+ //BA.debugLineNum = 50;BA.debugLine="t.Initialize(\"t\",20000)";
+_t.Initialize(processBA,"t",(long) (20000));
+ //BA.debugLineNum = 51;BA.debugLine="t.Enabled = True";
+_t.setEnabled(anywheresoftware.b4a.keywords.Common.True);
+ //BA.debugLineNum = 52;BA.debugLine="t1.Initialize(\"t1\",100)";
+_t1.Initialize(processBA,"t1",(long) (100));
+ //BA.debugLineNum = 53;BA.debugLine="t1.Enabled = False";
+_t1.setEnabled(anywheresoftware.b4a.keywords.Common.False);
+ };
+ //BA.debugLineNum = 56;BA.debugLine="Activity.AddMenuItem3(\"About\",\"About\",LoadBitmap(F";
 mostCurrent._activity.AddMenuItem3("About","About",(android.graphics.Bitmap)(anywheresoftware.b4a.keywords.Common.LoadBitmap(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"about.png").getObject()),anywheresoftware.b4a.keywords.Common.True);
- //BA.debugLineNum = 45;BA.debugLine="Activity.Title = \"Dhamma Present\"";
-mostCurrent._activity.setTitle((Object)("Dhamma Present"));
- //BA.debugLineNum = 46;BA.debugLine="Activity.AddMenuItem(\"Holo\",\"btnHolo\")";
+ //BA.debugLineNum = 58;BA.debugLine="Activity.Title = \"SMS Bypasser\"";
+mostCurrent._activity.setTitle((Object)("SMS Bypasser"));
+ //BA.debugLineNum = 59;BA.debugLine="Activity.AddMenuItem(\"Holo\",\"btnHolo\")";
 mostCurrent._activity.AddMenuItem("Holo","btnHolo");
- //BA.debugLineNum = 47;BA.debugLine="Activity.AddMenuItem(\"Holo Light\",\"btnHoloLight\")";
+ //BA.debugLineNum = 60;BA.debugLine="Activity.AddMenuItem(\"Holo Light\",\"btnHoloLight\")";
 mostCurrent._activity.AddMenuItem("Holo Light","btnHoloLight");
- //BA.debugLineNum = 48;BA.debugLine="Activity.AddMenuItem(\"Holo Light Dark\",\"btnHoloLi";
+ //BA.debugLineNum = 61;BA.debugLine="Activity.AddMenuItem(\"Holo Light Dark\",\"btnHoloLi";
 mostCurrent._activity.AddMenuItem("Holo Light Dark","btnHoloLightDark");
- //BA.debugLineNum = 49;BA.debugLine="Activity.AddMenuItem(\"Old Android\",\"btnOld\")";
+ //BA.debugLineNum = 62;BA.debugLine="Activity.AddMenuItem(\"Old Android\",\"btnOld\")";
 mostCurrent._activity.AddMenuItem("Old Android","btnOld");
- //BA.debugLineNum = 50;BA.debugLine="Activity.AddMenuItem(\"Material Light Dark\",\"btnMa";
+ //BA.debugLineNum = 63;BA.debugLine="Activity.AddMenuItem(\"Material Light Dark\",\"btnMa";
 mostCurrent._activity.AddMenuItem("Material Light Dark","btnMaterialLightDark");
- //BA.debugLineNum = 51;BA.debugLine="Activity.AddMenuItem(\"Material Light\",\"btnMateria";
+ //BA.debugLineNum = 64;BA.debugLine="Activity.AddMenuItem(\"Material Light\",\"btnMateria";
 mostCurrent._activity.AddMenuItem("Material Light","btnMaterialLight");
- //BA.debugLineNum = 52;BA.debugLine="Activity.AddMenuItem(\"Material\",\"btnMaterial\")";
+ //BA.debugLineNum = 65;BA.debugLine="Activity.AddMenuItem(\"Material\",\"btnMaterial\")";
 mostCurrent._activity.AddMenuItem("Material","btnMaterial");
- //BA.debugLineNum = 53;BA.debugLine="End Sub";
+ //BA.debugLineNum = 66;BA.debugLine="End Sub";
 return "";
 }
 public static String  _activity_pause(boolean _userclosed) throws Exception{
- //BA.debugLineNum = 130;BA.debugLine="Sub Activity_Pause (UserClosed As Boolean)";
- //BA.debugLineNum = 132;BA.debugLine="End Sub";
+ //BA.debugLineNum = 144;BA.debugLine="Sub Activity_Pause (UserClosed As Boolean)";
+ //BA.debugLineNum = 146;BA.debugLine="End Sub";
 return "";
 }
 public static String  _activity_resume() throws Exception{
- //BA.debugLineNum = 79;BA.debugLine="Sub Activity_Resume";
- //BA.debugLineNum = 81;BA.debugLine="End Sub";
-return "";
-}
-public static String  _ad_adscreendismissed() throws Exception{
- //BA.debugLineNum = 76;BA.debugLine="Sub Ad_AdScreenDismissed";
- //BA.debugLineNum = 77;BA.debugLine="Log(\"screen dismissed\")";
-anywheresoftware.b4a.keywords.Common.Log("screen dismissed");
- //BA.debugLineNum = 78;BA.debugLine="End Sub";
-return "";
-}
-public static String  _ad_failedtoreceivead(String _errorcode) throws Exception{
- //BA.debugLineNum = 70;BA.debugLine="Sub Ad_FailedToReceiveAd (ErrorCode As String)";
- //BA.debugLineNum = 71;BA.debugLine="Log(\"failed: \" & ErrorCode)";
-anywheresoftware.b4a.keywords.Common.Log("failed: "+_errorcode);
- //BA.debugLineNum = 72;BA.debugLine="End Sub";
-return "";
-}
-public static String  _ad_receivead() throws Exception{
- //BA.debugLineNum = 73;BA.debugLine="Sub Ad_ReceiveAd";
- //BA.debugLineNum = 74;BA.debugLine="Log(\"received\")";
-anywheresoftware.b4a.keywords.Common.Log("received");
- //BA.debugLineNum = 75;BA.debugLine="End Sub";
+ //BA.debugLineNum = 93;BA.debugLine="Sub Activity_Resume";
+ //BA.debugLineNum = 95;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnholo_click() throws Exception{
- //BA.debugLineNum = 83;BA.debugLine="Sub btnHolo_Click";
- //BA.debugLineNum = 84;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 97;BA.debugLine="Sub btnHolo_Click";
+ //BA.debugLineNum = 98;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Holo"));
- //BA.debugLineNum = 85;BA.debugLine="End Sub";
+ //BA.debugLineNum = 99;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnhololight_click() throws Exception{
- //BA.debugLineNum = 87;BA.debugLine="Sub btnHoloLight_Click";
- //BA.debugLineNum = 88;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 101;BA.debugLine="Sub btnHoloLight_Click";
+ //BA.debugLineNum = 102;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Holo.Light"));
- //BA.debugLineNum = 89;BA.debugLine="End Sub";
+ //BA.debugLineNum = 103;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnhololightdark_click() throws Exception{
- //BA.debugLineNum = 91;BA.debugLine="Sub btnHoloLightDark_Click";
- //BA.debugLineNum = 92;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 105;BA.debugLine="Sub btnHoloLightDark_Click";
+ //BA.debugLineNum = 106;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Holo.Light.DarkActionBar"));
- //BA.debugLineNum = 93;BA.debugLine="End Sub";
+ //BA.debugLineNum = 107;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnmaterial_click() throws Exception{
- //BA.debugLineNum = 107;BA.debugLine="Sub btnMaterial_Click";
- //BA.debugLineNum = 108;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 121;BA.debugLine="Sub btnMaterial_Click";
+ //BA.debugLineNum = 122;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Material"));
- //BA.debugLineNum = 109;BA.debugLine="End Sub";
+ //BA.debugLineNum = 123;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnmateriallight_click() throws Exception{
- //BA.debugLineNum = 103;BA.debugLine="Sub btnMaterialLight_Click";
- //BA.debugLineNum = 104;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 117;BA.debugLine="Sub btnMaterialLight_Click";
+ //BA.debugLineNum = 118;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Material.Light"));
- //BA.debugLineNum = 105;BA.debugLine="End Sub";
+ //BA.debugLineNum = 119;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnmateriallightdark_click() throws Exception{
- //BA.debugLineNum = 99;BA.debugLine="Sub btnMaterialLightDark_Click";
- //BA.debugLineNum = 100;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
+ //BA.debugLineNum = 113;BA.debugLine="Sub btnMaterialLightDark_Click";
+ //BA.debugLineNum = 114;BA.debugLine="SetTheme(res.GetResourceId(\"style\", \"android:styl";
 _settheme(mostCurrent._res.GetResourceId("style","android:style/Theme.Material.Light.DarkActionBar"));
- //BA.debugLineNum = 101;BA.debugLine="End Sub";
+ //BA.debugLineNum = 115;BA.debugLine="End Sub";
 return "";
 }
 public static String  _btnold_click() throws Exception{
- //BA.debugLineNum = 95;BA.debugLine="Sub btnOld_Click";
- //BA.debugLineNum = 96;BA.debugLine="SetTheme(16973829)";
+ //BA.debugLineNum = 109;BA.debugLine="Sub btnOld_Click";
+ //BA.debugLineNum = 110;BA.debugLine="SetTheme(16973829)";
 _settheme((int) (16973829));
- //BA.debugLineNum = 97;BA.debugLine="End Sub";
+ //BA.debugLineNum = 111;BA.debugLine="End Sub";
 return "";
 }
 public static String  _globals() throws Exception{
- //BA.debugLineNum = 20;BA.debugLine="Sub Globals";
- //BA.debugLineNum = 21;BA.debugLine="Dim res As XmlLayoutBuilder";
+ //BA.debugLineNum = 21;BA.debugLine="Sub Globals";
+ //BA.debugLineNum = 22;BA.debugLine="Dim res As XmlLayoutBuilder";
 mostCurrent._res = new anywheresoftware.b4a.object.XmlLayoutBuilder();
- //BA.debugLineNum = 22;BA.debugLine="Dim ml As MLfiles";
+ //BA.debugLineNum = 23;BA.debugLine="Dim ml As MLfiles";
 mostCurrent._ml = new MLfiles.Fileslib.MLfiles();
- //BA.debugLineNum = 23;BA.debugLine="Dim start,stop As Button";
+ //BA.debugLineNum = 24;BA.debugLine="Dim start,stop As Button";
 mostCurrent._start = new anywheresoftware.b4a.objects.ButtonWrapper();
 mostCurrent._stop = new anywheresoftware.b4a.objects.ButtonWrapper();
- //BA.debugLineNum = 24;BA.debugLine="Dim lblfooter As Label";
+ //BA.debugLineNum = 25;BA.debugLine="Dim lblfooter As Label";
 mostCurrent._lblfooter = new anywheresoftware.b4a.objects.LabelWrapper();
- //BA.debugLineNum = 25;BA.debugLine="Dim AdView1 As AdView";
+ //BA.debugLineNum = 26;BA.debugLine="Dim AdView1 As AdView";
 mostCurrent._adview1 = new anywheresoftware.b4a.admobwrapper.AdViewWrapper();
- //BA.debugLineNum = 26;BA.debugLine="End Sub";
+ //BA.debugLineNum = 27;BA.debugLine="Dim AdView2 As mwAdmobInterstitial";
+mostCurrent._adview2 = new mobi.mindware.admob.interstitial.AdmobInterstitialsAds();
+ //BA.debugLineNum = 28;BA.debugLine="Dim p As Phone";
+mostCurrent._p = new anywheresoftware.b4a.phone.Phone();
+ //BA.debugLineNum = 29;BA.debugLine="End Sub";
 return "";
 }
 
@@ -492,6 +505,7 @@ public static void initializeProcessGlobals() {
 		        main._process_globals();
 smsunlocker._process_globals();
 about._process_globals();
+ads._process_globals();
 s1._process_globals();
 		
         } catch (Exception e) {
@@ -502,52 +516,103 @@ s1._process_globals();
  //BA.debugLineNum = 16;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 17;BA.debugLine="Dim Theme_Value As Int";
 _theme_value = 0;
- //BA.debugLineNum = 18;BA.debugLine="End Sub";
+ //BA.debugLineNum = 18;BA.debugLine="Dim t,t1 As Timer";
+_t = new anywheresoftware.b4a.objects.Timer();
+_t1 = new anywheresoftware.b4a.objects.Timer();
+ //BA.debugLineNum = 19;BA.debugLine="End Sub";
 return "";
 }
 public static String  _settheme(int _theme) throws Exception{
- //BA.debugLineNum = 111;BA.debugLine="Private Sub SetTheme (Theme As Int)";
- //BA.debugLineNum = 112;BA.debugLine="If Theme = 0 Then";
+ //BA.debugLineNum = 125;BA.debugLine="Private Sub SetTheme (Theme As Int)";
+ //BA.debugLineNum = 126;BA.debugLine="If Theme = 0 Then";
 if (_theme==0) { 
- //BA.debugLineNum = 113;BA.debugLine="ToastMessageShow(\"Theme not available.\", False)";
+ //BA.debugLineNum = 127;BA.debugLine="ToastMessageShow(\"Theme not available.\", False)";
 anywheresoftware.b4a.keywords.Common.ToastMessageShow("Theme not available.",anywheresoftware.b4a.keywords.Common.False);
- //BA.debugLineNum = 114;BA.debugLine="Return";
+ //BA.debugLineNum = 128;BA.debugLine="Return";
 if (true) return "";
  };
- //BA.debugLineNum = 116;BA.debugLine="If Theme = Theme_Value Then Return";
+ //BA.debugLineNum = 130;BA.debugLine="If Theme = Theme_Value Then Return";
 if (_theme==_theme_value) { 
 if (true) return "";};
- //BA.debugLineNum = 117;BA.debugLine="Theme_Value = Theme";
+ //BA.debugLineNum = 131;BA.debugLine="Theme_Value = Theme";
 _theme_value = _theme;
- //BA.debugLineNum = 118;BA.debugLine="Activity.Finish";
+ //BA.debugLineNum = 132;BA.debugLine="Activity.Finish";
 mostCurrent._activity.Finish();
- //BA.debugLineNum = 119;BA.debugLine="StartActivity(Me)";
+ //BA.debugLineNum = 133;BA.debugLine="StartActivity(Me)";
 anywheresoftware.b4a.keywords.Common.StartActivity(mostCurrent.activityBA,main.getObject());
- //BA.debugLineNum = 120;BA.debugLine="End Sub";
+ //BA.debugLineNum = 134;BA.debugLine="End Sub";
 return "";
 }
 public static String  _start_click() throws Exception{
- //BA.debugLineNum = 58;BA.debugLine="Sub start_Click";
- //BA.debugLineNum = 59;BA.debugLine="StartService(SmsUnlocker)";
+ //BA.debugLineNum = 74;BA.debugLine="Sub start_Click";
+ //BA.debugLineNum = 75;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 76;BA.debugLine="t1.Enabled = True";
+_t1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
+ };
+ //BA.debugLineNum = 78;BA.debugLine="StartService(SmsUnlocker)";
 anywheresoftware.b4a.keywords.Common.StartService(mostCurrent.activityBA,(Object)(mostCurrent._smsunlocker.getObject()));
- //BA.debugLineNum = 60;BA.debugLine="ml.GetRoot";
+ //BA.debugLineNum = 79;BA.debugLine="ml.GetRoot";
 mostCurrent._ml.GetRoot();
- //BA.debugLineNum = 61;BA.debugLine="If ml.HaveRoot Then";
+ //BA.debugLineNum = 80;BA.debugLine="If ml.HaveRoot Then";
 if (mostCurrent._ml.HaveRoot) { 
  }else {
- //BA.debugLineNum = 63;BA.debugLine="Msgbox(\"No have Root Access!\" ,\"Error\")";
+ //BA.debugLineNum = 82;BA.debugLine="Msgbox(\"No have Root Access!\" ,\"Error\")";
 anywheresoftware.b4a.keywords.Common.Msgbox("No have Root Access!","Error",mostCurrent.activityBA);
  };
- //BA.debugLineNum = 65;BA.debugLine="End Sub";
+ //BA.debugLineNum = 84;BA.debugLine="End Sub";
 return "";
 }
 public static String  _stop_click() throws Exception{
- //BA.debugLineNum = 66;BA.debugLine="Sub stop_Click";
- //BA.debugLineNum = 67;BA.debugLine="StopService(SmsUnlocker)";
+ //BA.debugLineNum = 85;BA.debugLine="Sub stop_Click";
+ //BA.debugLineNum = 86;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 87;BA.debugLine="t1.Enabled = True";
+_t1.setEnabled(anywheresoftware.b4a.keywords.Common.True);
+ };
+ //BA.debugLineNum = 89;BA.debugLine="StopService(SmsUnlocker)";
 anywheresoftware.b4a.keywords.Common.StopService(mostCurrent.activityBA,(Object)(mostCurrent._smsunlocker.getObject()));
- //BA.debugLineNum = 68;BA.debugLine="Msgbox(\"SMS-Unlocker Stopped\",\"Attention\")";
+ //BA.debugLineNum = 90;BA.debugLine="Msgbox(\"SMS-Unlocker Stopped\",\"Attention\")";
 anywheresoftware.b4a.keywords.Common.Msgbox("SMS-Unlocker Stopped","Attention",mostCurrent.activityBA);
- //BA.debugLineNum = 69;BA.debugLine="End Sub";
+ //BA.debugLineNum = 91;BA.debugLine="End Sub";
+return "";
+}
+public static String  _t_tick() throws Exception{
+ //BA.debugLineNum = 161;BA.debugLine="Sub t_Tick";
+ //BA.debugLineNum = 162;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 163;BA.debugLine="If AdView2.Status=AdView2.Status_AdReadyToShow Th";
+if (mostCurrent._adview2.Status==mostCurrent._adview2.Status_AdReadyToShow) { 
+ //BA.debugLineNum = 164;BA.debugLine="AdView2.Show";
+mostCurrent._adview2.Show(mostCurrent.activityBA);
+ };
+ //BA.debugLineNum = 167;BA.debugLine="If AdView2.Status=AdView2.Status_Dismissed Then";
+if (mostCurrent._adview2.Status==mostCurrent._adview2.Status_Dismissed) { 
+ //BA.debugLineNum = 168;BA.debugLine="AdView2.LoadAd";
+mostCurrent._adview2.LoadAd(mostCurrent.activityBA);
+ };
+ };
+ //BA.debugLineNum = 171;BA.debugLine="End Sub";
+return "";
+}
+public static String  _t1_tick() throws Exception{
+ //BA.debugLineNum = 148;BA.debugLine="Sub t1_Tick";
+ //BA.debugLineNum = 149;BA.debugLine="If p.SdkVersion > 19 Then";
+if (mostCurrent._p.getSdkVersion()>19) { 
+ //BA.debugLineNum = 150;BA.debugLine="If AdView2.Status=AdView2.Status_AdReadyToShow Th";
+if (mostCurrent._adview2.Status==mostCurrent._adview2.Status_AdReadyToShow) { 
+ //BA.debugLineNum = 151;BA.debugLine="AdView2.Show";
+mostCurrent._adview2.Show(mostCurrent.activityBA);
+ };
+ //BA.debugLineNum = 154;BA.debugLine="If AdView2.Status=AdView2.Status_Dismissed Then";
+if (mostCurrent._adview2.Status==mostCurrent._adview2.Status_Dismissed) { 
+ //BA.debugLineNum = 155;BA.debugLine="AdView2.LoadAd";
+mostCurrent._adview2.LoadAd(mostCurrent.activityBA);
+ };
+ //BA.debugLineNum = 157;BA.debugLine="t1.Enabled = False";
+_t1.setEnabled(anywheresoftware.b4a.keywords.Common.False);
+ };
+ //BA.debugLineNum = 159;BA.debugLine="End Sub";
 return "";
 }
 public void _onCreate() {

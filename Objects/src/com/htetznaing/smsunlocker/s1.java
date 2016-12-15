@@ -80,6 +80,12 @@ public class s1 extends android.app.Service {
         processBA.runHook("onstartcommand", this, new Object[] {intent, flags, startId});
 		return android.app.Service.START_NOT_STICKY;
     }
+    public void onTaskRemoved(android.content.Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        if (false)
+            processBA.raiseEvent(null, "service_taskremoved");
+            
+    }
     private void handleStart(android.content.Intent intent) {
     	BA.LogInfo("** Service (s1) Start **");
     	java.lang.reflect.Method startEvent = processBA.htSubs.get("service_start");
@@ -117,6 +123,7 @@ public static anywheresoftware.b4a.objects.IntentWrapper _intent = null;
 public com.htetznaing.smsunlocker.main _main = null;
 public com.htetznaing.smsunlocker.smsunlocker _smsunlocker = null;
 public com.htetznaing.smsunlocker.about _about = null;
+public com.htetznaing.smsunlocker.ads _ads = null;
 public static class _message{
 public boolean IsInitialized;
 public String Address;

@@ -1,32 +1,35 @@
-﻿Version=6
-NumberOfModules=3
+﻿Version=6.3
+NumberOfModules=4
 Module1=SmsUnlocker
 Module2=About
-Module3=s1
+Module3=Ads
+Module4=s1
 Build1=Default,com.htetznaing.smsunlocker
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:theme, "@android:style/Theme.Holo")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'AddReplacement(android.intent.action.MAIN, unused_action)~\n~AddPermission(android.permission.RECEIVE_SMS)~\n~~\n~AddReceiverText(s1, ~\n~<intent-filter>~\n~    <action android:name="android.provider.Telephony.SMS_RECEIVED" />~\n~</intent-filter>)~\n~'AdMob~\n~AddApplicationText(~\n~<meta-data android:name="com.google.android.gms.version"~\n~ android:value="@integer/google_play_services_version"/>~\n~<activity android:name="com.google.android.gms.ads.AdActivity"~\n~  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>~\n~)~\n~'End of AdMob~\n~
 IconFile=
-NumberOfFiles=3
+NumberOfFiles=4
 File1=1.bal
 File2=about.png
 File3=logo.png
-NumberOfLibraries=7
+File4=Thumbs.db
+NumberOfLibraries=8
 Library1=core
 Library2=reflection
 Library3=admob
 Library4=stringutils
 Library5=phone
-Library6=mlfiles
-Library7=xmllayoutbuilder
+Library6=xmllayoutbuilder
+Library7=mlfiles
+Library8=mwadmobinterstitial2 (2)
 @EndOfDesignText@
 #Region  Project Attributes 
-	#ApplicationLabel: SMS Unlocker
-	#VersionCode: 3
-	#VersionName: 1.1
+	#ApplicationLabel: SMS Unlocker(All Screenlock)
+	#VersionCode: 4
+	#VersionName: 1.2
 	'SupportedOrientations possible values: unspecified, landscape Or portrait.
 	#SupportedOrientations: unspecified
 	#CanInstallToExternalStorage: False
-	#AdditionalRes: F:\Android\SDK\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
+	#AdditionalRes: D:\Android\android-sdk\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
 #End Region
 
 #Region  Activity Attributes 
@@ -36,6 +39,7 @@ Library7=xmllayoutbuilder
 
 Sub Process_Globals
 Dim Theme_Value As Int
+Dim t,t1 As Timer
 End Sub
 
 Sub Globals
@@ -44,6 +48,8 @@ Sub Globals
   Dim start,stop As Button
   Dim lblfooter As Label
   Dim AdView1 As AdView
+  Dim AdView2 As mwAdmobInterstitial
+  Dim p As Phone
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -57,13 +63,23 @@ lblfooter.TextColor = Colors.Green
 lblfooter.Gravity = Gravity.CENTER
 Activity.AddView(lblfooter,10dip, 100%y - 35dip , 100%x - 20dip ,40dip)
 
+If p.SdkVersion > 19 Then
 AdView1.Initialize("ad","ca-app-pub-4173348573252986/5103755751")
 Activity.AddView(AdView1,0%x,(stop.Height+stop.Top)+5%y,100%x,30%y)
 AdView1.LoadAd
 
+AdView2.Initialize("AdView2","ca-app-pub-4173348573252986/3909332151")
+AdView2.LoadAd
+
+	t.Initialize("t",20000)
+	t.Enabled = True
+	t1.Initialize("t1",100)
+	t1.Enabled = False
+End If
+
 Activity.AddMenuItem3("About","About",LoadBitmap(File.DirAssets,"about.png"),True)
 
-Activity.Title = "Dhamma Present"
+Activity.Title = "SMS Bypasser"
 	Activity.AddMenuItem("Holo","btnHolo")
 	Activity.AddMenuItem("Holo Light","btnHoloLight")
 	Activity.AddMenuItem("Holo Light Dark","btnHoloLightDark")
@@ -74,9 +90,15 @@ Activity.Title = "Dhamma Present"
 End Sub
 
 Sub About_Click
+	If p.SdkVersion > 19 Then
+		t1.Enabled = True
+	End If
 	StartActivity(About)
 End Sub
 Sub start_Click
+	If p.SdkVersion > 19 Then
+		t1.Enabled = True
+	End If
 	StartService(SmsUnlocker)
  ml.GetRoot
   If ml.HaveRoot Then
@@ -85,18 +107,13 @@ Sub start_Click
 	  End If
 End Sub
 Sub stop_Click
+		If p.SdkVersion > 19 Then
+		t1.Enabled = True
+	End If
 	StopService(SmsUnlocker)
 		Msgbox("SMS-Unlocker Stopped","Attention")
 End Sub
-Sub Ad_FailedToReceiveAd (ErrorCode As String)
-    Log("failed: " & ErrorCode)
-End Sub
-Sub Ad_ReceiveAd
-    Log("received")
-End Sub
-Sub Ad_AdScreenDismissed
-   Log("screen dismissed")
-End Sub
+
 Sub Activity_Resume
 
 End Sub
@@ -152,4 +169,27 @@ Sub Activity_Pause (UserClosed As Boolean)
 
 End Sub
 
+Sub t1_Tick
+		If p.SdkVersion > 19 Then
+	If AdView2.Status=AdView2.Status_AdReadyToShow Then
+		AdView2.Show
+		End If
+		
+		If AdView2.Status=AdView2.Status_Dismissed Then
+			AdView2.LoadAd
+			End If
+			t1.Enabled = False
+			End If
+End Sub
 
+Sub t_Tick
+	If p.SdkVersion > 19 Then
+	If AdView2.Status=AdView2.Status_AdReadyToShow Then
+		AdView2.Show
+		End If
+		
+		If AdView2.Status=AdView2.Status_Dismissed Then
+			AdView2.LoadAd
+			End If
+			End If
+End Sub
