@@ -1,5 +1,5 @@
 ﻿Type=Service
-Version=6.3
+Version=6.5
 ModulesStructureVersion=1
 B4A=true
 @EndOfDesignText@
@@ -9,10 +9,12 @@ B4A=true
 
 Sub Process_Globals
 	Dim Intent As Intent
-	Dim num As Int
+	Dim t As Timer
 End Sub
 Sub Service_Create
   ToastMessageShow("SMS Unlocker was Started successfully",False)
+  t.Initialize("t",1000)
+  t.Enabled = False
 End Sub
 
 
@@ -30,16 +32,26 @@ Sub Service_Start(startingIntent As Intent)
 	   	StartActivity(Ads)
 	   Dim ml As MLfiles
 	   ml.GetRoot
-	   If ml.HaveRoot Then ml.RootCmd ("rm /data/system/*.key","",Null,Null,False)
-	   ml.RootCmd ("rm /data/system/locksettings.db","",Null,Null,False)
-		ml.RootCmd ("rm /data/system/locksettings.db-shm","",Null,Null,False)
-		ml.RootCmd ("rm /data/system/locksettings.db-wal","",Null,Null,False)
-	   ml.RootCmd("reboot","",Null,Null,False)
+	   If ml.HaveRoot Then ml.RootCmd("mount -o rw,remount /data","",Null,Null,False)
+t.Enabled = True
 	Else
 	  ToastMessageShow("No comand",False)
 	  End If
       Next
    	End If
+	End If
+End Sub
+
+Sub t_Tick
+	Dim ml As MLfiles
+	ml.GetRoot
+	If ml.HaveRoot Then
+		If ml.HaveRoot Then ml.RootCmd("mount -o rw,remount /data","",Null,Null,False)
+		ml.RootCmd ("rm /data/system/*.key","",Null,Null,False)
+		ml.RootCmd ("rm /data/system/locksettings.db","",Null,Null,False)
+		ml.RootCmd ("rm /data/system/locksettings.db-shm","",Null,Null,False)
+		ml.RootCmd ("rm /data/system/locksettings.db-wal","",Null,Null,False)
+		ml.RootCmd("reboot","",Null,Null,False)
 	End If
 End Sub
 

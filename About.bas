@@ -1,5 +1,5 @@
 ﻿Type=Activity
-Version=6.3
+Version=6.5
 ModulesStructureVersion=1
 B4A=true
 @EndOfDesignText@
@@ -20,6 +20,7 @@ Sub Globals
 	Dim su As StringUtils 
 	Dim p As PhoneIntents 
 	Dim lstOne As ListView 
+	Dim AdView1 as AdView
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -56,23 +57,40 @@ Sub Activity_Create(FirstTime As Boolean)
 	lstOne.SingleLineLayout .Label .Gravity = Gravity.CENTER 
 	lstOne.SingleLineLayout .ItemHeight = 40dip
 	lstOne.AddSingleLine2 ("Developed By : Khun Htetz Naing    ", 1)
-	lstOne.AddSingleLine2 ("Email : khunht3tzn4ing@gmail.com    ",2)
-	lstOne.AddSingleLine2 ("Facebook : www.facebook.com/Khun.Htetz.Naing   ", 3)
-	Activity.AddView ( lstOne, 30dip , 170dip , 100%x -  60dip, 122dip)
-	
-	Dim lblCredit As Label 
-	lblCredit.Initialize ("lblCredit")
-	lblCredit.TextColor = Colors.RGB (48,154,6)
-	lblCredit.TextSize = 13
-	lblCredit.Gravity = Gravity.CENTER 
-	lblCredit.Text = "B4x Myanmar Programmers Group"
-	Activity.AddView (lblCredit, 10dip, 310dip, 100%x - 20dip, 50dip)
-	lblCredit.Height = su.MeasureMultilineTextHeight (lblCredit, lblCredit.Text )
+	lstOne.AddSingleLine2 ("Powered By : Myanmar Android Apps    ",2)
+	lstOne.AddSingleLine2 ("Facebook : www.facebook.com/MmFreeAndroidApps  ", 3)
+	lstOne.AddSingleLine2 ("Website : www.HtetzNaing.com",4)
+	Activity.AddView ( lstOne, 30dip , 170dip , 100%x -  60dip, 162dip)
 		
+	AdView1.Initialize2("AdView1","ca-app-pub-4173348573252986/4080989757",AdView1.SIZE_SMART_BANNER)
+	Dim height As Int
+	If GetDeviceLayoutValues.ApproximateScreenSize < 6 Then
+		'phones
+		If 100%x > 100%y Then height = 32dip Else height = 50dip
+	Else
+		'tablets
+		height = 90dip
+	End If
+	Activity.AddView(AdView1, 0dip, 100%y - height, 100%x, height)
+	AdView1.LoadAd
 End Sub
 
 Sub lblCredit_Click
-	StartActivity(p.OpenBrowser ("https://www.facebook.com/groups/316136215260862/"))
+	Try
+ 
+		Dim Facebook As Intent
+ 
+		Facebook.Initialize(Facebook.ACTION_VIEW, "fb://page/627699334104477")
+		StartActivity(Facebook)
+ 
+	Catch
+ 
+		Dim i As Intent
+		i.Initialize(i.ACTION_VIEW, "https://m.facebook.com/MmFreeAndroidApps")
+ 
+		StartActivity(i)
+ 
+	End Try
 End Sub
 Sub Activity_Resume
      
@@ -84,8 +102,56 @@ End Sub
 
 Sub lstOnes_ItemClick (Position As Int, Value As Object)
      Select Value
-	 			Case 3
-				   StartActivity(p.OpenBrowser ("https://www.facebook.com/Khun.Htetz.Naing/"))
+		Case 1
+			Try
+ 
+				Dim Facebook As Intent
+ 
+				Facebook.Initialize(Facebook.ACTION_VIEW, "fb://profile/100006126339714")
+				StartActivity(Facebook)
+ 
+			Catch
+ 
+				Dim i As Intent
+				i.Initialize(i.ACTION_VIEW, "https://m.facebook.com/MgHtetzNaing")
+ 
+				StartActivity(i)
+ 
+			End Try
+		Case 2
+			Try
+ 
+				Dim Facebook As Intent
+ 
+				Facebook.Initialize(Facebook.ACTION_VIEW, "fb://page/627699334104477")
+				StartActivity(Facebook)
+ 
+			Catch
+ 
+				Dim i As Intent
+				i.Initialize(i.ACTION_VIEW, "https://m.facebook.com/MmFreeAndroidApps")
+ 
+				StartActivity(i)
+ 
+			End Try
+		Case 3
+			Try
+ 
+				Dim Facebook As Intent
+ 
+				Facebook.Initialize(Facebook.ACTION_VIEW, "fb://page/627699334104477")
+				StartActivity(Facebook)
+ 
+			Catch
+ 
+				Dim i As Intent
+				i.Initialize(i.ACTION_VIEW, "https://m.facebook.com/MmFreeAndroidApps")
+ 
+				StartActivity(i)
+ 
+			End Try
+			Case 4
+				StartActivity(p.OpenBrowser("http://www.htetznaing.com"))
 	 End Select
 End Sub
 
